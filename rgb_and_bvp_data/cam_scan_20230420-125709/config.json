@@ -1,1 +1,0 @@
-{"face detector method": "BlazefaceFacemesh", "source": "cam", "scan duration": 60, "FPS": 30.361916918568422, "skin segmentation method": "ConvexHullSkinSegmentation", "pixel outliers removal": true, "total execution time": 60.425, "total no of frames": 1800, "average detection time": 0.01, "average transform time": 8.39}
