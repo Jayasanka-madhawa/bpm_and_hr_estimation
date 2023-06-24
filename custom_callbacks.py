@@ -21,6 +21,7 @@ class EarlyStoppingIncreasingValLoss(Callback):
             loss_increase = current_val_loss - self.best_val_loss
             if loss_increase > self.increase_threshold:
                 self.wait += 1
+                print(f'\nself.wait-{self.wait}')
                 if self.wait >= self.patience:
                     self.model.stop_training = True
                     print(f'\nEarly stopping due to validation loss increase.')

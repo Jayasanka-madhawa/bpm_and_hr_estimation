@@ -58,18 +58,68 @@ def split_60(input_path,output_path):
 
     df_mod.to_csv(output_path, index=False)
     
+def split_60_15_overlap(input_path,output_path):
+    df = pd.read_csv(input_path)
+
+    df_input = df.drop(['hr','calculated_hr','DBP','SBP'], axis=1)
+
+    df_mod=pd.DataFrame()
+    l=[]
+    for x in range(0,210,15):
+        dfx = df_input.iloc[:, x:x+60]
+        desired_order = [str(i) for i in range(60)]
+        dfx.columns = desired_order
+        dfx.loc[:,'hr'] = df['hr'] 
+        dfx.loc[:,'calculated_hr'] = df['calculated_hr']
+        dfx.loc[:,'DBP'] = df['DBP']
+        dfx.loc[:,'SBP'] = df['SBP']
+        
+    #     display(dfx)
+        l.append(dfx)
+
+    df_mod = pd.concat(l)
+        
+    df_mod = df_mod.reset_index(drop=True)
+
+    df_mod.to_csv(output_path, index=False)
+    
+def split_60_no_overlap(input_path,output_path):
+    df = pd.read_csv(input_path)
+
+    df_input = df.drop(['hr','calculated_hr','DBP','SBP'], axis=1)
+
+    df_mod=pd.DataFrame()
+    l=[]
+    for x in range(0,181,60):
+        dfx = df_input.iloc[:, x:x+60]
+        desired_order = [str(i) for i in range(60)]
+        dfx.columns = desired_order
+        dfx.loc[:,'hr'] = df['hr'] 
+        dfx.loc[:,'calculated_hr'] = df['calculated_hr']
+        dfx.loc[:,'DBP'] = df['DBP']
+        dfx.loc[:,'SBP'] = df['SBP']
+        
+    #     display(dfx)
+        l.append(dfx)
+
+    df_mod = pd.concat(l)
+        
+    df_mod = df_mod.reset_index(drop=True)
+
+    df_mod.to_csv(output_path, index=False)
     
     
-input_path = 'dataframes/data.csv'
-output_path = 'dataframes/data60.csv'
+    
+# input_path = 'dataframes/data.csv'
+# output_path = 'dataframes/data60.csv'
 
-split_60(input_path,output_path)
+# split_60(input_path,output_path)
 
-def load_data():
+def load_data(prepros):
 
-    df_train = pd.read_csv('dataframes/train60.csv')
-    df_val = pd.read_csv('dataframes/val60.csv')
-    df_test = pd.read_csv('dataframes/test60.csv')
+    df_train = pd.read_csv(f'dataframes/train{prepros}.csv')
+    df_val = pd.read_csv(f'dataframes/val{prepros}.csv')
+    df_test = pd.read_csv(f'dataframes/test{prepros}.csv')
 
     ratio = len(df_train),len(df_val),len(df_test)
     print(ratio)
